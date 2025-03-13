@@ -1,0 +1,10 @@
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dotenv = "0.15.0"
+hex = "0.4.3"
+spacetimedb-sdk = "1.0.0"
+tokio = { version = "1.44.0", features = ["full"] }
