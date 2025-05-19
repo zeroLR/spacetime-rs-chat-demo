@@ -63,6 +63,7 @@ pub fn identity_disconnected(ctx: &ReducerContext) {
 
 #[spacetimedb::reducer]
 pub fn set_name(ctx: &ReducerContext, name: String) -> Result<(), String> {
+    log::info!("Setting name to: {}", name);
     let name = validate_name(name)?;
     if let Some(user) = ctx.db.user().identity().find(ctx.sender) {
         ctx.db.user().identity().update(User {
@@ -90,6 +91,7 @@ pub fn send_message(ctx: &ReducerContext, text: String) -> Result<(), String> {
 
 /// Takes a name and checks if it's acceptable as a user's name.
 fn validate_name(name: String) -> Result<String, String> {
+    log::info!("Validating name: {}", name);
     if name.is_empty() {
         Err("Names must not be empty".to_string())
     } else {
