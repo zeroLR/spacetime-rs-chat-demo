@@ -49,10 +49,56 @@ spacetime publish --project-path server <MODULE_NAME>
 
 Replace the `.env.example` file with `.env` and update the environment variables with the spacetime server details.
 
+#### Local development
+
 ```bash
 cd client
 cargo run
 ```
+
+#### Using Docker
+
+You can also run the client using Docker:
+
+1. **Build the Docker image:**
+   ```bash
+   cd client
+   docker build -t spacetime-rs-client .
+   ```
+
+   *Note: If you encounter SSL certificate issues during Docker build, build the binary locally first:*
+   ```bash
+   cargo build --release
+   # Then use the simple build approach documented in the Dockerfile
+   ```
+
+2. **Run the client container:**
+   ```bash
+   # Pass environment variables at runtime
+   docker run --rm \
+     -e HOST=http://localhost:3000 \
+     -e DB_NAME=your_module_name \
+     spacetime-rs-client
+   
+   # Or using an environment file
+   docker run --rm --env-file .env spacetime-rs-client
+   ```
+
+3. **Using Docker Compose (optional):**
+   Create a `docker-compose.yml` file:
+   ```yaml
+   version: '3.8'
+   services:
+     client:
+       build: ./client
+       environment:
+         - HOST=http://localhost:3000
+         - DB_NAME=your_module_name
+       # Uncomment to use .env file instead
+       # env_file: ./client/.env
+   ```
+
+   Then run: `docker-compose up`
 
 ## Reference
 
