@@ -49,10 +49,40 @@ spacetime publish --project-path server <MODULE_NAME>
 
 Replace the `.env.example` file with `.env` and update the environment variables with the spacetime server details.
 
+#### Running with Cargo (Local Development)
+
 ```bash
 cd client
 cargo run
 ```
+
+#### Running with Docker
+
+You can also run the Rust client using Docker. First, build the Docker image:
+
+```bash
+cd client
+docker build -t spacetime-client .
+```
+
+Then run the container with environment variables:
+
+```bash
+docker run --rm -e HOST=http://localhost:3000 -e DB_NAME=your_db_name spacetime-client
+```
+
+Or with an environment file:
+
+```bash
+# Create a .env file with your configuration
+cp .env.example .env
+# Edit .env with your values
+
+# Run with the environment file
+docker run --rm --env-file .env spacetime-client
+```
+
+**Note**: The Dockerfile uses a multi-stage build with `rust:1.84-slim` for building and `debian:bookworm-slim` for runtime. If you encounter edition 2024 compatibility issues with older Rust versions, you may need to use a nightly Rust image or temporarily modify the edition in Cargo.toml.
 
 ## Reference
 
